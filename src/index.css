@@ -14,3 +14,11 @@ body {
   height: 100%;
   background-color: hsl(185, 41%, 84%);
 }
+
+.text-letter-spacing{
+  letter-spacing: 6px;
+}
+
+input::placeholder{
+  color: #00474B;
+}
