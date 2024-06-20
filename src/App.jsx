@@ -1,4 +1,34 @@
+import { useState } from "react";
+
 function App() {
+  const [billAmount, setBillAmount] = useState();
+  const [billPercent, setBillPercent] = useState();
+  const [numberOfPeople, setNumberOfPeople] = useState();
+
+  function calculateTip() {
+    console.log("hello");
+    const tip = parseInt(billPercent) / 100;
+    // const billAmountWithTip = tip + billAmount;
+    // const tipPerPerson = billAmountWithTip / numberOfPeople;
+    console.log(tip);
+  }
+
+  if (billAmount !== "" && billPercent !== "" && numberOfPeople !== "") {
+    calculateTip();
+  }
+
+  function forBillAmount(value) {
+    console.log(value);
+  }
+
+  function forBillPercent(value) {
+    console.log(value);
+  }
+
+  function forNumberOfPeople(value) {
+    console.log(value);
+  }
+
   return (
     <>
       <div className="w-full">
@@ -27,6 +57,7 @@ function App() {
               <input
                 type="number"
                 name=""
+                onChange={(e) => forBillAmount(e.target.value)}
                 className="w-[354px] mt-2  text-[25px] bg-[#F3F8FB] py-2 text-[#073F43] rounded text-right pr-4 "
                 id="dollars"
               />
@@ -37,10 +68,16 @@ function App() {
               <h1 className="text-[#687B7B]">Select Tip %</h1>
               <div className="mt-2">
                 <div className="flex gap-2">
-                  <button className="border px-9 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded ">
+                  <button
+                    onClick={() => forBillPercent("5%")}
+                    className="border px-9 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
+                  >
                     5%
                   </button>
-                  <button className="border px-9 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300  py-1 text-[25px] bg-[#00474B] text-white rounded ">
+                  <button
+                    onClick={() => forBillPercent("10%")}
+                    className="border px-9 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300  py-1 text-[25px] bg-[#00474B] text-white rounded "
+                  >
                     10%
                   </button>
                   <button className="border px-9  hover:bg-[#9FE8DF]  hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded ">
@@ -48,14 +85,21 @@ function App() {
                   </button>
                 </div>
                 <div className="flex gap-2 mt-3">
-                  <button className="border px-7 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded ">
+                  <button
+                    onClick={() => forBillPercent("25%")}
+                    className="border px-7 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
+                  >
                     25%
                   </button>
-                  <button className="border px-9  hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded ">
+                  <button
+                    onClick={() => forBillPercent("30%")}
+                    className="border px-9  hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
+                  >
                     30%
                   </button>
                   <input
                     type="number"
+                    onClick={(e) => forBillPercent(e.target.value)}
                     className="w-[120px] text-[#00474B]  bg-[#F3F9F9] text-center text-[25px]"
                     placeholder="Custom"
                   />
@@ -73,6 +117,7 @@ function App() {
                 src="/images/icon-person.svg"
                 className="absolute bottom-4 left-4"
                 alt=""
+                
               />
 
               <input
@@ -80,6 +125,8 @@ function App() {
                 name=""
                 className="w-[354px] text-[25px] mt-2 bg-[#F3F8FB] py-2 text-[#073F43] rounded text-right pr-4 "
                 id="dollars"
+                defaultValue={1}
+                onChange={(e) => forNumberOfPeople(e.target.value)}
               />
             </div>
           </div>
@@ -98,7 +145,9 @@ function App() {
               <h1 className="text-5xl text-[#1AC8AC]">$0.00</h1>
             </div>
 
-            <button className="absolute bottom-8 rounded py-2 w-[330px] hover:bg-[#9FE8DF] duration-300 mx-auto text-[#00474D] bg-[#26C2AD]">RESET</button>
+            <button className="absolute bottom-8 rounded py-2 w-[330px] hover:bg-[#9FE8DF] duration-300 mx-auto text-[#00474D] bg-[#26C2AD]">
+              RESET
+            </button>
           </div>
         </div>
       </div>
