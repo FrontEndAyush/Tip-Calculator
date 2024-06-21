@@ -1,33 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [billAmount, setBillAmount] = useState();
   const [billPercent, setBillPercent] = useState();
-  const [numberOfPeople, setNumberOfPeople] = useState();
-
-  function calculateTip() {
-    console.log("hello");
-    const tip = parseInt(billPercent) / 100;
-    // const billAmountWithTip = tip + billAmount;
-    // const tipPerPerson = billAmountWithTip / numberOfPeople;
-    console.log(tip);
-  }
-
-  if (billAmount !== "" && billPercent !== "" && numberOfPeople !== "") {
-    calculateTip();
-  }
+  const [numberOfPeople, setNumberOfPeople] = useState(1);
+  const [tipPerPersonAmount, setTipPersonAmount] = useState("0.00");
 
   function forBillAmount(value) {
-    console.log(value);
+    setBillAmount(value);
   }
 
   function forBillPercent(value) {
-    console.log(value);
+    
+    setBillPercent(value);
   }
 
   function forNumberOfPeople(value) {
-    console.log(value);
+    setNumberOfPeople(value);
   }
+  useEffect(() => {
+    if (
+      billAmount &&
+      billPercent &&
+      numberOfPeople &&
+      billAmount !== "0" &&
+      billPercent !== "0" &&
+      numberOfPeople !== "0"
+    ) {
+      const tipPercent = (parseInt(billPercent) / 100).toFixed(2);
+      const tipAmount = tipPercent * billAmount;
+      const billAmountWithTip = parseInt(billAmount) + parseInt(tipAmount);
+      const tipPerPerson = billAmountWithTip / parseInt(numberOfPeople);
+
+      setTipPersonAmount(tipPerPerson.toFixed(2));
+    }
+  }, [billAmount, billPercent, numberOfPeople]);
 
   return (
     <>
@@ -69,30 +76,33 @@ function App() {
               <div className="mt-2">
                 <div className="flex gap-2">
                   <button
-                    onClick={() => forBillPercent("5%")}
+                    onClick={() => forBillPercent("5")}
                     className="border px-9 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
                   >
                     5%
                   </button>
                   <button
-                    onClick={() => forBillPercent("10%")}
+                    onClick={() => forBillPercent("10")}
                     className="border px-9 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300  py-1 text-[25px] bg-[#00474B] text-white rounded "
                   >
                     10%
                   </button>
-                  <button className="border px-9  hover:bg-[#9FE8DF]  hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded ">
+                  <button
+                    onClick={() => forBillPercent("15")}
+                    className="border px-9  hover:bg-[#9FE8DF]  hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
+                  >
                     15%
                   </button>
                 </div>
                 <div className="flex gap-2 mt-3">
                   <button
-                    onClick={() => forBillPercent("25%")}
+                    onClick={() => forBillPercent("25")}
                     className="border px-7 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
                   >
                     25%
                   </button>
                   <button
-                    onClick={() => forBillPercent("30%")}
+                    onClick={() => forBillPercent("30")}
                     className="border px-9  hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
                   >
                     30%
@@ -104,8 +114,6 @@ function App() {
                     placeholder="Custom"
                   />
                 </div>
-
-                <div></div>
               </div>
             </div>
 
@@ -117,7 +125,6 @@ function App() {
                 src="/images/icon-person.svg"
                 className="absolute bottom-4 left-4"
                 alt=""
-                
               />
 
               <input
@@ -136,13 +143,13 @@ function App() {
               <h1>
                 Tip Amount <h1 className="text-[#66999D]">/ Person</h1>
               </h1>
-              <h1 className="text-5xl text-[#1AC8AC]">$0.00</h1>
+              <h1 className="text-5xl text-[#1AC8AC]">${tipPerPersonAmount}</h1>
             </div>
             <div className="flex mt-10 justify-between">
               <h1>
                 Tip Amount <h1 className="text-[#66999D]">/ Person</h1>
               </h1>
-              <h1 className="text-5xl text-[#1AC8AC]">$0.00</h1>
+              <h1 className="text-5xl text-[#1AC8AC]">${tipPerPersonAmount}</h1>
             </div>
 
             <button className="absolute bottom-8 rounded py-2 w-[330px] hover:bg-[#9FE8DF] duration-300 mx-auto text-[#00474D] bg-[#26C2AD]">
