@@ -1,164 +1,151 @@
 import { useEffect, useState } from "react";
 
 function App() {
-  const [billAmount, setBillAmount] = useState();
-  const [billPercent, setBillPercent] = useState();
+  const [billAmount, setBillAmount] = useState(0);
+  const [billPercent, setBillPercent] = useState(0);
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [tipPerPersonAmount, setTipPersonAmount] = useState("0.00");
+  const [totalAmount, setTotalAmount] = useState("0.00");
 
   function forBillAmount(value) {
-    setBillAmount(value);
+    setBillAmount(parseFloat(value));
   }
 
   function forBillPercent(value) {
-    
-    setBillPercent(value);
+    setBillPercent(parseFloat(value));
   }
 
   function forNumberOfPeople(value) {
-    setNumberOfPeople(value);
+    setNumberOfPeople(parseInt(value));
   }
+
   useEffect(() => {
-    if (
-      billAmount &&
-      billPercent &&
-      numberOfPeople &&
-      billAmount !== "0" &&
-      billPercent !== "0" &&
-      numberOfPeople !== "0"
-    ) {
-      const tipPercent = (parseInt(billPercent) / 100).toFixed(2);
+    if (billAmount > 0 && billPercent > 0 && numberOfPeople > 0) {
+      const tipPercent = billPercent / 100;
       const tipAmount = tipPercent * billAmount;
-      const billAmountWithTip = parseInt(billAmount) + parseInt(tipAmount);
-      const tipPerPerson = billAmountWithTip / parseInt(numberOfPeople);
+      const billAmountWithTip = billAmount + tipAmount;
+      const tipPerPerson = tipAmount / numberOfPeople;
+      const totalPerPerson = billAmountWithTip / numberOfPeople;
 
       setTipPersonAmount(tipPerPerson.toFixed(2));
+      setTotalAmount(totalPerPerson.toFixed(2));
     }
   }, [billAmount, billPercent, numberOfPeople]);
 
   return (
-    <>
-      <div className="w-full">
-        <div className="mt-[100px]">
-          <h1 className="text-center text-[20px] font-bold text-letter-spacing text-[#4C6F71]">
-            SPLI
-          </h1>
-          <h1 className="text-center text-[20px]  font-bold text-letter-spacing text-[#4C6F71]">
-            TTER
-          </h1>
-        </div>
+    <div className="w-full min-h-screen bg-[#C5E4E7] flex flex-col items-center justify-center px-4 py-8">
+      <div className="mt-8 mb-12">
+        <h1 className="text-center text-2xl font-bold tracking-[0.5em] text-[#4C6F71]">
+          SPLI
+        </h1>
+        <h1 className="text-center text-2xl font-bold tracking-[0.5em] text-[#4C6F71]">
+          TTER
+        </h1>
+      </div>
 
-        <div className="lg:w-[860px]  p-9 lg:h-[440px] h-full rounded-2xl mt-14 font-bold gap-7 bg-white flex flex-wrap lg:flex-nowrap mx-auto">
-          {/* first main  div  */}
-          <div>
-            {/* first  */}
+      <div className="w-full max-w-4xl p-6 md:p-8 rounded-3xl bg-white shadow-lg">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Input Section */}
+          <div className="flex-1 space-y-6">
+            {/* Bill Input */}
             <div className="relative">
-              <label htmlFor="dollars text-[#687B7B]">Bill</label>
-              <br />
+              <label htmlFor="dollars" className="text-[#687B7B]">
+                Bill
+              </label>
               <img
                 src="/images/icon-dollar.svg"
                 className="absolute bottom-4 left-4"
-                alt=""
+                alt="dollar icon"
               />
-
               <input
                 type="number"
-                name=""
                 onChange={(e) => forBillAmount(e.target.value)}
-                className="w-[354px] mt-2  text-[25px] bg-[#F3F8FB] py-2 text-[#073F43] rounded text-right pr-4 "
+                className="w-full mt-2 text-2xl bg-[#F3F8FB] py-2 text-[#073F43] rounded text-right pr-4"
                 id="dollars"
+                min="0"
               />
             </div>
 
-            {/* second  */}
-            <div className="mt-8">
+            {/* Tip Selection */}
+            <div>
               <h1 className="text-[#687B7B]">Select Tip %</h1>
-              <div className="mt-2">
-                <div className="flex gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
+                {[5, 10, 15, 25, 30].map((percent) => (
                   <button
-                    onClick={() => forBillPercent("5")}
-                    className="border px-9 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
+                    key={percent}
+                    onClick={() => forBillPercent(percent)}
+                    className="py-2 text-xl bg-[#00474B] text-white rounded hover:bg-[#9FE8DF] hover:text-[#00474B] transition duration-300"
                   >
-                    5%
+                    {percent}%
                   </button>
-                  <button
-                    onClick={() => forBillPercent("10")}
-                    className="border px-9 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300  py-1 text-[25px] bg-[#00474B] text-white rounded "
-                  >
-                    10%
-                  </button>
-                  <button
-                    onClick={() => forBillPercent("15")}
-                    className="border px-9  hover:bg-[#9FE8DF]  hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
-                  >
-                    15%
-                  </button>
-                </div>
-                <div className="flex gap-2 mt-3">
-                  <button
-                    onClick={() => forBillPercent("25")}
-                    className="border px-7 hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
-                  >
-                    25%
-                  </button>
-                  <button
-                    onClick={() => forBillPercent("30")}
-                    className="border px-9  hover:bg-[#9FE8DF] hover:text-[#00474B] duration-300 py-1 text-[25px] bg-[#00474B] text-white rounded "
-                  >
-                    30%
-                  </button>
-                  <input
-                    type="number"
-                    onClick={(e) => forBillPercent(e.target.value)}
-                    className="w-[120px] text-[#00474B]  bg-[#F3F9F9] text-center text-[25px]"
-                    placeholder="Custom"
-                  />
-                </div>
+                ))}
+                <input
+                  type="number"
+                  onChange={(e) => forBillPercent(e.target.value)}
+                  className="py-2 text-xl bg-[#F3F9F9] text-[#00474B] text-center rounded"
+                  placeholder="Custom"
+                  min="0"
+                />
               </div>
             </div>
 
-            {/* third  */}
-            <div className="relative mt-8">
-              <label htmlFor="dollars text-[#687B7B]">Number of People</label>
-              <br />
+            {/* Number of People Input */}
+            <div className="relative">
+              <label htmlFor="people" className="text-[#687B7B]">
+                Number of People
+              </label>
               <img
                 src="/images/icon-person.svg"
                 className="absolute bottom-4 left-4"
-                alt=""
+                alt="person icon"
               />
-
               <input
                 type="number"
-                name=""
-                className="w-[354px] text-[25px] mt-2 bg-[#F3F8FB] py-2 text-[#073F43] rounded text-right pr-4 "
-                id="dollars"
+                className="w-full mt-2 text-2xl bg-[#F3F8FB] py-2 text-[#073F43] rounded text-right pr-4"
+                id="people"
                 defaultValue={1}
                 onChange={(e) => forNumberOfPeople(e.target.value)}
+                min="1"
               />
             </div>
           </div>
 
-          <div className="w-[400px] relative bg-[#00474B] text-white px-6 h-[385px] ml-5 rounded-2xl">
-            <div className="flex mt-10 justify-between">
-              <h1>
-                Tip Amount <h1 className="text-[#66999D]">/ Person</h1>
-              </h1>
-              <h1 className="text-5xl text-[#1AC8AC]">${tipPerPersonAmount}</h1>
+          {/* Result Section */}
+          <div className="flex-1 bg-[#00474B] text-white p-6 rounded-2xl flex flex-col justify-between">
+            <div className="space-y-8">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h1>Tip Amount</h1>
+                  <h2 className="text-[#66999D]">/ person</h2>
+                </div>
+                <h1 className="text-4xl text-[#1AC8AC]">
+                  ${tipPerPersonAmount}
+                </h1>
+              </div>
+              <div className="flex justify-between items-center">
+                <div>
+                  <h1>Total</h1>
+                  <h2 className="text-[#66999D]">/ person</h2>
+                </div>
+                <h1 className="text-4xl text-[#1AC8AC]">${totalAmount}</h1>
+              </div>
             </div>
-            <div className="flex mt-10 justify-between">
-              <h1>
-                Tip Amount <h1 className="text-[#66999D]">/ Person</h1>
-              </h1>
-              <h1 className="text-5xl text-[#1AC8AC]">${tipPerPersonAmount}</h1>
-            </div>
-
-            <button className="absolute bottom-8 rounded py-2 w-[330px] hover:bg-[#9FE8DF] duration-300 mx-auto text-[#00474D] bg-[#26C2AD]">
+            <button
+              className="w-full mt-8 py-3 rounded text-[#00474D] bg-[#26C2AD] hover:bg-[#9FE8DF] transition duration-300"
+              onClick={() => {
+                setBillAmount(0);
+                setBillPercent(0);
+                setNumberOfPeople(1);
+                setTipPersonAmount("0.00");
+                setTotalAmount("0.00");
+              }}
+            >
               RESET
             </button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
